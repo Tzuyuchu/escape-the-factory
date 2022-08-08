@@ -6,8 +6,8 @@ import byow.input.KeyboardInputSource;
 import byow.input.StringInputDevice;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
-import byow.worldgen.MSTMapGenerator;
-import byow.worldgen.MapGenerator;
+import byow.WorldGen.MSTMapGenerator;
+import byow.WorldGen.MapGenerator;
 
 import java.awt.event.KeyEvent;
 import java.util.Random;

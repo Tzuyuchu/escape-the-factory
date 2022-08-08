@@ -1,4 +1,4 @@
-package byow.worldgen;
+package byow.WorldGen;
 
 import byow.TileEngine.TETile;
 
