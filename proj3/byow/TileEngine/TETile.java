@@ -1,6 +1,7 @@
 package byow.TileEngine;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
@@ -23,6 +24,7 @@ import byow.Core.RandomUtils;
  */
 
 public class TETile implements Serializable {
+    private static final File texture = new File("byow", "textures");
     private final char character; // Do not rename character or the autograder will break.
     private final Color textColor;
     private final Color backgroundColor;
@@ -86,7 +88,7 @@ public class TETile implements Serializable {
         int halfTileSize = TERenderer.TILE_SIZE / 2;
         if (fileName != null) {
             try {
-                String filepath = "byow/textures/" + fileName + ".png";
+                String filepath = new File(texture, fileName + ".png").toString();
                 StdDraw.picture(x, y, filepath);
                 return;
             } catch (IllegalArgumentException e) {
@@ -109,8 +111,8 @@ public class TETile implements Serializable {
             case '❀' -> {
                 assert fileName != null;
                 diamondTile(x, y);
-                String key_filepath = "byow/textures/key_clear.png";
-                String normal_filepath = "byow/textures/" + fileName + ".png";
+                String key_filepath = new File(texture, "key_clear.png").toString();
+                String normal_filepath = new File(texture, fileName + ".png").toString();
                 try {
                     StdDraw.picture(x, y + halfH / 2.5, key_filepath);
                 } catch (IllegalArgumentException e) {
@@ -120,8 +122,8 @@ public class TETile implements Serializable {
             case 'U', '@' -> {
                 assert fileName != null;
                 diamondTile(x, y);
-                String clear_filepath = "byow/textures/" + fileName + "_clear.png";
-                String normal_filepath = "byow/textures/" + fileName + ".png";
+                String clear_filepath = new File(texture, fileName + "_clear.png").toString();
+                String normal_filepath = new File(texture, fileName + ".png").toString();
                 try {
                     StdDraw.picture(x, y + halfH / 2.5, clear_filepath);
                 } catch (IllegalArgumentException e) {

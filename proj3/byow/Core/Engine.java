@@ -48,7 +48,7 @@ public class Engine {
     private boolean render;
 
     /** Leaderboard object. It is null by default, until it is read or created. */
-    private Leaderboard leaderboard = null;
+    private Leaderboard leaderboard;
 
     /**
      * Method used for exploring a fresh world. This method initializes the renderer, then calls
@@ -115,8 +115,8 @@ public class Engine {
      */
     public GameState doMainMenu() {
         int character = Player.AVATAR1;
-        Leaderboard leaderbrd = Persistence.readLeaderboard();
-        String name = leaderbrd.savedName;
+        leaderboard = Persistence.readLeaderboard();
+        String name = leaderboard.savedName;
         while (input.possibleNextInput()) {
             char nextKey = 0;
             if (render) {
