@@ -1,5 +1,8 @@
 package byow.Core;
 
+import byow.creatures.Robot;
+
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -410,6 +413,18 @@ public class RandomUtils {
             char temp = a[i];
             a[i] = a[r];
             a[r] = temp;
+        }
+    }
+
+    /** Rearranges the elements of robots. */
+    public static void shuffle(Random random, List<Robot> robots) {
+        validateNotNull(robots);
+        int n = robots.size();
+        for (int i = 0; i < n; i++) {
+            int r = i + uniform(random, n - i);
+            Robot temp = robots.get(i);
+            robots.set(i, robots.get(r));
+            robots.set(r, temp);
         }
     }
 

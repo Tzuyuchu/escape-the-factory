@@ -1,6 +1,7 @@
 package byow.TileEngine;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -21,12 +22,12 @@ import byow.Core.RandomUtils;
  * to make your TETile class mutable, if you prefer.
  */
 
-public class TETile {
+public class TETile implements Serializable {
     private final char character; // Do not rename character or the autograder will break.
     private final Color textColor;
     private final Color backgroundColor;
     private final String description;
-    private final String filepath;
+    private final String fileName;
 
     /**
      * Full constructor for TETile objects.
@@ -34,15 +35,15 @@ public class TETile {
      * @param textColor The color of the character itself.
      * @param backgroundColor The color drawn behind the character.
      * @param description The description of the tile, shown in the GUI on hovering over the tile.
-     * @param filepath Full path to image to be used for this tile. Must be correct size (16x16)
+     * @param fileName Full path to image to be used for this tile. Must be correct size (16x16)
      */
     public TETile(char character, Color textColor, Color backgroundColor, String description,
-                  String filepath) {
+                  String fileName) {
         this.character = character;
         this.textColor = textColor;
         this.backgroundColor = backgroundColor;
         this.description = description;
-        this.filepath = filepath;
+        this.fileName = fileName;
     }
 
     /**
@@ -58,7 +59,7 @@ public class TETile {
         this.textColor = textColor;
         this.backgroundColor = backgroundColor;
         this.description = description;
-        this.filepath = null;
+        this.fileName = null;
     }
 
     /**
@@ -67,7 +68,7 @@ public class TETile {
      * @param textColor foreground color for tile copy
      */
     public TETile(TETile t, Color textColor) {
-        this(t.character, textColor, t.backgroundColor, t.description, t.filepath);
+        this(t.character, textColor, t.backgroundColor, t.description, t.fileName);
     }
 
 
@@ -82,9 +83,11 @@ public class TETile {
      * @param y y coordinate
      */
     public void draw(double x, double y) {
-        if (filepath != null) {
+        int halfTileSize = TERenderer.TILE_SIZE / 2;
+        if (fileName != null) {
             try {
-                StdDraw.picture(x + 0.5, y + 0.5, filepath);
+                String filepath = "byow/textures/" + fileName + ".png";
+                StdDraw.picture(x, y, filepath);
                 return;
             } catch (IllegalArgumentException e) {
                 // Exception happens because the file can't be found. In this case, fail silently
@@ -93,9 +96,68 @@ public class TETile {
         }
 
         StdDraw.setPenColor(backgroundColor);
-        StdDraw.filledSquare(x + 0.5, y + 0.5, 0.5);
+        StdDraw.filledSquare(x, y, halfTileSize);
         StdDraw.setPenColor(textColor);
-        StdDraw.text(x + 0.5, y + 0.5, Character.toString(character()));
+        StdDraw.text(x, y, Character.toString(character()));
+    }
+
+    /** Draws the tile in weird perspective. */
+    public void drawPerspective(double x, double y) {
+        double halfH = 0.5 * TERenderer.TILE_SIZE;
+        double halfW = 0.75 * TERenderer.TILE_SIZE;
+        switch (character) {
+            case '❀' -> {
+                assert fileName != null;
+                diamondTile(x, y);
+                String key_filepath = "byow/textures/key_clear.png";
+                String normal_filepath = "byow/textures/" + fileName + ".png";
+                try {
+                    StdDraw.picture(x, y + halfH / 2.5, key_filepath);
+                } catch (IllegalArgumentException e) {
+                    StdDraw.picture(x, y + halfH / 2.5, normal_filepath);
+                }
+            }
+            case 'U', '@' -> {
+                assert fileName != null;
+                diamondTile(x, y);
+                String clear_filepath = "byow/textures/" + fileName + "_clear.png";
+                String normal_filepath = "byow/textures/" + fileName + ".png";
+                try {
+                    StdDraw.picture(x, y + halfH / 2.5, clear_filepath);
+                } catch (IllegalArgumentException e) {
+                    StdDraw.picture(x, y + halfH / 2.5, normal_filepath);
+                }
+            }
+            case '#' -> {
+                double wallH = halfH - 1;
+                double[] xFill = {x, x - halfW, x - halfW, x, x + halfW, x + halfW};
+                double[] yFill = {y - halfH, y, y + wallH, y + halfH + wallH, y + wallH, y};
+                double[] xEdge = {x, x - halfW, x - halfW, x, x, x + halfW, x + halfW, x};
+                double midY = y + wallH - halfH;
+                double[] yEdge = {y - halfH, y, y + wallH, midY, y - halfH, y, y + halfH, midY};
+                StdDraw.setPenColor(backgroundColor);
+                StdDraw.filledPolygon(xFill, yFill);
+                StdDraw.setPenColor(textColor);
+                StdDraw.polygon(xEdge, yEdge);
+                StdDraw.polygon(xFill, yFill);
+            }
+            case '·' -> {
+                diamondTile(x, y);
+            }
+            default -> { }
+        }
+    }
+
+    /** Draws a diamond tile in this tile's background color. */
+    private void diamondTile(double x, double y) {
+        double halfH = 0.5 * TERenderer.TILE_SIZE;
+        double halfW = 0.75 * TERenderer.TILE_SIZE;
+        double[] xCorners = {x - halfW, x, x + halfW, x};
+        double[] yCorners = {y, y + halfH, y, y - halfH};
+        StdDraw.setPenColor(backgroundColor);
+        StdDraw.filledPolygon(xCorners, yCorners);
+        StdDraw.setPenColor(textColor);
+        StdDraw.polygon(xCorners, yCorners);
     }
 
     /** Character representation of the tile. Used for drawing in text mode.
@@ -139,8 +201,12 @@ public class TETile {
         int rawNewValue = v + RandomUtils.uniform(r, -dv, dv + 1);
 
         // make sure value doesn't fall outside of the range 0 to 255.
-        int newValue = Math.min(255, Math.max(0, rawNewValue));
-        return newValue;
+        return Math.min(255, Math.max(0, rawNewValue));
+    }
+
+    public boolean valid() {
+        return character != '#' && fileName != null
+                && !fileName.equals("byow/textures/ghost_key.png");
     }
 
     /**
