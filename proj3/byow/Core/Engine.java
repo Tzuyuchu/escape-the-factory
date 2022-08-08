@@ -56,9 +56,11 @@ public class Engine {
      * write necessary data to file, then exits with exit code 0.
      */
     public void interactWithKeyboard() {
-        ter.initialize(CANVAS_WIDTH, CANVAS_HEIGHT);
-        input = new KeyboardInputSource();
-        render = true;
+        if (!ter.isInitialized()) {
+            ter.initialize(CANVAS_WIDTH, CANVAS_HEIGHT);
+            input = new KeyboardInputSource();
+            render = true;
+        }
         GameState game = doMainMenu();
         if (game != null) {
             game.runGame();

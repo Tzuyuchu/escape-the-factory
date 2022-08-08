@@ -26,7 +26,8 @@ public class TERenderer {
     /** Number of while loop iterations per second, for rendering. */
     public static final int FRAME_RATE = 60;
 
-
+    /** Whether initialize() has been called on this ter. */
+    private boolean initialized = false;
     /** Canvas width in pixels. */
     private int width;
     /** Canvas height in pixels. */
@@ -46,6 +47,7 @@ public class TERenderer {
      * @param h height of the window in pixels.
      */
     public void initialize(int w, int h, int xOff, int yOff) {
+        initialized = true;
         this.width = w;
         this.height = h;
         this.xOffset = xOff;
@@ -574,5 +576,9 @@ public class TERenderer {
 
     public int getYOffset() {
         return yOffset;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
     }
 }
