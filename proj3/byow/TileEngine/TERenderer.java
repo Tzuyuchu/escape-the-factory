@@ -242,7 +242,7 @@ public class TERenderer {
     public char renderHelp() {
         StdDraw.clear(Color.BLACK); // Background color
         String[] lines = {
-                "Welcome to Escape the Dungeon!",
+                "Welcome to Escape the Factory!",
                 "",
                 "In this post-apocalyptic world, sentient Turing-complete robots have taken over",
                 "the world, leaving you to be the last person on Earth. You've managed to survive",
@@ -363,7 +363,7 @@ public class TERenderer {
         StdDraw.text(x, y - 280, "Keys Found:");
         StdDraw.text(x, y - 297, gameState.getKeysRetrieved() + " / 5");
         Date date = new Date();
-        SimpleDateFormat topPatt = new SimpleDateFormat("h:m a");
+        SimpleDateFormat topPatt = new SimpleDateFormat("h:mm a");
         SimpleDateFormat botPatt = new SimpleDateFormat("M/d/y");
         StdDraw.text(x, -height / 2.0 + 37, topPatt.format(date));
         StdDraw.text(x, -height / 2.0 + 20, botPatt.format(date));

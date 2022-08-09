@@ -28,8 +28,6 @@ public class Engine {
      */
     public static final MapGenerator MAP_ALGORITHM = new MSTMapGenerator();
 
-    /** Default character name. */
-    public static final String DEFAULT_NAME = "POMU";
     /** Width of the canvas in pixels. */
     public static final int CANVAS_WIDTH = 1050;
     /** Height of the canvas in pixels. */
@@ -198,6 +196,7 @@ public class Engine {
 
     public void updateLeaderboard(GameState game) {
         leaderboard.addScore(game.getGameScore());
+        leaderboard.savedName = game.getName();
         Persistence.writeData(leaderboard);
     }
 

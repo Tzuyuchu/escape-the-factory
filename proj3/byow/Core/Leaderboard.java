@@ -6,8 +6,13 @@ import java.util.List;
 
 public class Leaderboard implements Serializable {
 
-    protected String savedName = Engine.DEFAULT_NAME;
-    private final List<Entry> arr = new ArrayList<>();
+    protected String savedName;
+    private final List<Entry> arr;
+
+    public Leaderboard() {
+        savedName = "POMU";
+        arr = new ArrayList<>();
+    }
 
     public List<Entry> getScores() {
         return arr;

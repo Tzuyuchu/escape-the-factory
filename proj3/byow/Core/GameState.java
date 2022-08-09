@@ -127,8 +127,8 @@ public class GameState implements Serializable {
 
     public void updateOldGameState(TERenderer renderer, InputSource input, boolean render) {
         ter = renderer;
-        ter.changeXOffset(xOffset);
-        ter.changeYOffset(yOffset);
+        ter.setXOffset(xOffset);
+        ter.setYOffset(yOffset);
         inputSource = input;
         doRender = render;
     }
@@ -145,8 +145,10 @@ public class GameState implements Serializable {
             keys.add(new Key(findEmptySpotForNPC()));
         }
 
-        changeXOffset(width / 2 - playerCoord.x);
-        changeYOffset(height / 2 - playerCoord.y);
+        xOffset = width / 2 - playerCoord.x;
+        yOffset = height / 2 - playerCoord.y;
+        ter.setXOffset(xOffset);
+        ter.setYOffset(yOffset);
         xOffsetShift = xOffset;
         yOffsetShift = yOffset;
     }
@@ -199,6 +201,7 @@ public class GameState implements Serializable {
      * by 1, allowing monsters to move one step after the player moves.
      */
     public void runGame() {
+        copyDataMap();
         updateMap();
         boolean doQuit = false;
 
@@ -238,6 +241,8 @@ public class GameState implements Serializable {
                             case '0' -> toggleFogOfWar();
                             default -> { }
                         }
+                        copyDataMap();
+                        updateMap();
                     }
                     default -> { }
                 }
