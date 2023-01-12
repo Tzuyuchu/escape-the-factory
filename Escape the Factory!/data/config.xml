@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\Nicholas\Downloads\Game Downloads\Escape the Factory!\Escape the Factory.jar</jar>
+  <outfile>C:\Users\Nicholas\Downloads\Game Downloads\Escape the Factory!\Escape the Factory.exe</outfile>
+  <errTitle>Please install Java.</errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.\data</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\Nicholas\Downloads\Game Downloads\Escape the Factory!\data\byow\textures\pomu.ico</icon>
+  <classPath>
+    <mainClass>byow.Core.Main</mainClass>
+  </classPath>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>17</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>1.0.0.0</txtFileVersion>
+    <fileDescription>Escape the Factory!</fileDescription>
+    <copyright>Nicholas Nguyen</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>1.0.0.0</txtProductVersion>
+    <productName>Escape the Factory!</productName>
+    <companyName></companyName>
+    <internalName>byow</internalName>
+    <originalFilename>proj3.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
+</launch4jConfig>
